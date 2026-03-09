@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo Bank | Future Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --primary-neon: #00f2ff; }
+        body { background: #0a0a0a !important; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s;
+        }
+        .dashboard-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 242, 255, 0.1); }
+        
+        .btn-quick-action {
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid var(--primary-neon);
+            color: var(--primary-neon);
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .btn-quick-action:hover { background: var(--primary-neon); color: #000; }
+        
+        .security-badge-live { font-size: 0.7rem; padding: 4px 8px; border-radius: 20px; background: rgba(40, 167, 69, 0.2); color: #28a745; border: 1px solid #28a745; }
+        .no-tx-alert { color: #ff4b2b; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; padding: 30px; }
+        .profile-label { font-size: 0.65rem; color: #aaa; text-transform: uppercase; margin-bottom: 2px; }
+        .profile-value { font-size: 0.85rem; font-weight: 600; color: #fff; word-break: break-all; }
+        
+        .pin-input-field {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: var(--primary-neon);
+            text-align: center;
+            font-size: 2rem;
+            letter-spacing: 15px;
+            font-weight: bold;
+        }
+        .pin-input-field:focus { background: #1a1a1a; border-color: var(--primary-neon); color: #fff; box-shadow: none; }
+
+        .scanner-box {
+            position: relative;
+            border: 2px solid var(--primary-neon);
+            display: inline-block;
+            padding: 40px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: rgba(0, 242, 255, 0.05);
+        }
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-neon);
+            top: 0;
+            left: 0;
+            box-shadow: 0 0 15px var(--primary-neon);
+            animation: moveLine 2s infinite linear;
+        }
+        @keyframes moveLine {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .qr-placeholder {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body class="bg-dark text-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-info" href="#">NEO BANK <span class="ms-2 security-badge-live">Live Protection</span></a>
+            <div class="navbar-nav ms-auto d-flex align-items-center">
+                <button class="btn btn-link text-info text-decoration-none me-3 small" onclick="alert('Support Ticket Created. We will contact you soon.')">
+                    <i class="fas fa-headset me-1"></i> Help & Support
+                </button>
+                <button class="btn btn-outline-info btn-sm me-2" data-bs-toggle="modal" data-bs-target="#profileModal">
+                    <i class="fas fa-user-circle me-1"></i> My Profile
+                </button>
+                <button class="btn btn-outline-danger btn-sm ms-2" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-0">Hello, <span id="display-name" class="text-info">User</span></h2>
+                <p class="text-muted">Secure Session ID: <span id="session-id" class="font-monospace">----</span></p>
+            </div>
+            <div class="text-end d-none d-md-block">
+                <div class="small text-muted">NEO-SHIELD STATUS</div>
+                <div class="fw-bold text-success"><i class="fas fa-check-double me-1"></i> ENCRYPTED</div>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="dashboard-card mb-4 overflow-hidden" style="background: linear-gradient(135deg, rgba(0,242,255,0.05) 0%, rgba(0,0,0,0) 100%);">
+                    <h5><i class="fas fa-wallet me-2 text-info"></i>Available Balance</h5>
+                    <div class="balance-display py-3" id="balance-display" style="font-size: 3rem; font-weight: 800;">₹0</div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <small class="text-muted d-block">Account Number</small>
+                            <span id="display-account-no" class="fw-bold text-info">----</span>
+                        </div>
+                        <div class="col-6 text-end">
+                            <span class="badge bg-success">ACTIVE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-4"><button class="btn-quick-action" onclick="focusTransfer()"><i class="fas fa-paper-plane d-block mb-1"></i> Send</button></div>
+                    <div class="col-4"><button class="btn-quick-action" data-bs-toggle="modal" data-bs-target="#scanModal"><i class="fas fa-qrcode d-block mb-1"></i> Scan</button></div>
+                    <div class="col-4"><button class="btn-quick-action" onclick="checkGuardStatus()"><i class="fas fa-shield-alt d-block mb-1"></i> Guard</button></div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h5><i class="fas fa-history me-2 text-info"></i>Recent Transactions</h5>
+                    <hr class="border-secondary">
+                    <div id="transactions-list"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="dashboard-card mb-4">
+                    <h5><i class="fas fa-exchange-alt me-2 text-info"></i>Transfer Money</h5>
+                    <form id="transfer-form" class="mt-3">
+                        <div class="mb-3">
+                            <label class="small text-muted mb-1">RECIPIENT ACCOUNT</label>
+                            <input type="text" class="form-control bg-dark text-light border-secondary" id="recipient" placeholder="Enter Account No" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small text-muted mb-1">AMOUNT (₹)</label>
+                            <input type="number" class="form-control bg-dark text-light border-secondary" id="amount" placeholder="5000" required>
+                        </div>
+                        <button type="submit" class="btn btn-info w-100 fw-bold py-2 mt-2">AUTHORIZE TRANSFER</button>
+                    </form>
+                </div>
+                <div class="dashboard-card" style="border-left: 4px solid var(--primary-neon);">
+                    <h6><i class="fas fa-mobile-alt me-2"></i>Security Info</h6>
+                    <p class="small text-muted mb-1 mt-3">DEVICE BOUND ID</p>
+                    <code id="display-device-id-sidebar" class="text-info small">Detecting...</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pinModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light border border-info">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title text-info"><i class="fas fa-lock me-2"></i>Security Authorization</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <p>Enter your 6-digit PIN to authorize the transfer of <span id="pin-modal-amount" class="text-info fw-bold"></span> to <span id="pin-modal-recipient" class="text-info fw-bold"></span>.</p>
+                    <input type="password" maxlength="6" class="form-control pin-input-field mx-auto w-75" id="auth-pin" placeholder="••••••">
+                    <div id="pin-error" class="text-danger small mt-2" style="display:none;">Incorrect PIN. Please try again.</div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-info fw-bold" onclick="verifyPinAndExecute()">CONFIRM PAYMENT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="scanModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light border border-info">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title text-info"><i class="fas fa-qrcode me-2"></i>Quantum Scanner</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center py-5">
+                    <div class="scanner-box mb-4">
+                        <i class="fas fa-expand fa-4x text-info opacity-50"></i>
+                        <div class="scan-line"></div>
+                    </div>
+                    <h5>Searching for Recipient...</h5>
+                    <p class="text-muted small">Align the Neo-Code within the frame</p>
+                    <button class="btn btn-sm btn-outline-info mt-3" onclick="simulateSuccessfulScan()">
+                        <i class="fas fa-bolt me-1"></i> SIMULATE SCAN (TEST)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light border border-info">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title text-info"><i class="fas fa-id-badge me-2"></i>My Neo Profile</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="bg-info d-inline-block rounded-circle p-3 mb-2">
+                            <i class="fas fa-user-shield fa-3x text-dark"></i>
+                        </div>
+                        <h4 id="profile-name" class="mb-0">Name</h4>
+                        <p class="text-info small mb-0" id="profile-acc-id">ID: ----</p>
+                    </div>
+
+                    <div class="dashboard-card bg-black border-secondary">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="profile-label">Full Name</label>
+                                <div id="p-name" class="profile-value">--</div>
+                            </div>
+                            <div class="col-6">
+                                <label class="profile-label">Date of Birth</label>
+                                <div id="p-dob" class="profile-value">--</div>
+                            </div>
+                            <div class="col-12">
+                                <label class="profile-label">Gmail / Email</label>
+                                <div id="p-email" class="profile-value">--</div>
+                            </div>
+                            <div class="col-12">
+                                <label class="profile-label">Device Bound ID</label>
+                                <div id="p-device" class="profile-value font-monospace text-info small" style="font-size: 0.7rem;">--</div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4 pt-3 border-top border-secondary">
+                            <label class="profile-label d-block">Your Personal Neo-Code</label>
+                            <div class="qr-placeholder">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=NEOBANK_USER" id="profile-qr" alt="QR Code" width="120">
+                            </div>
+                            <p class="text-muted small mt-2">Others can scan this to pay you</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button class="btn btn-outline-info w-100" onclick="window.print()">Download Profile Card</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const currentAccNo = localStorage.getItem("currentAccount");
+        const accounts = JSON.parse(localStorage.getItem("neoBankAccounts")) || {};
+        const user = accounts[currentAccNo];
+        let pendingTransfer = null;
+
+        if (!currentAccNo || !user) {
+            window.location.href = "loginpage.html";
+        }
+
+        $(document).ready(function() {
+            if(user) {
+                animateValue("balance-display", 0, user.balance, 1500);
+                $("#display-name").text(user.fullName.split(' ')[0]);
+                $("#display-account-no").text(currentAccNo);
+                $("#display-device-id-sidebar").text(user.deviceBoundId || "NB-DEVICE-X99");
+                $("#session-id").text(Math.random().toString(36).substr(2, 9).toUpperCase());
+                
+                $("#profile-name").text(user.fullName);
+                $("#profile-acc-id").text("ID: " + currentAccNo);
+                $("#p-name").text(user.fullName);
+                $("#p-dob").text(user.dob || "2008-11-25");
+                $("#p-email").text(user.username + "@gmail.com");
+                $("#p-device").text(user.deviceBoundId || "NB-MMDJ1TPNZ8V1K");
+                $("#profile-qr").attr("src", `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${currentAccNo}`);
+
+                loadTransactions();
+            }
+
+            $('#transfer-form').on('submit', function(e) {
+                e.preventDefault();
+                const amount = parseFloat($('#amount').val());
+                const recipient = $('#recipient').val();
+
+                if (amount > user.balance) {
+                    alert("🚨 TRANSACTION DENIED: Insufficient vault balance.");
+                    return;
+                }
+                if (recipient === currentAccNo) {
+                    alert("🚨 ERROR: Cannot transfer to yourself.");
+                    return;
+                }
+
+                pendingTransfer = { amount, recipient };
+                $("#pin-modal-amount").text("₹" + amount.toLocaleString());
+                $("#pin-modal-recipient").text(recipient);
+                $("#auth-pin").val('');
+                $("#pin-error").hide();
+                
+                new bootstrap.Modal(document.getElementById('pinModal')).show();
+            });
+        });
+
+        function verifyPinAndExecute() {
+            const enteredPin = $("#auth-pin").val();
+            if(enteredPin === user.password) {
+                user.balance -= pendingTransfer.amount;
+                accounts[currentAccNo] = user;
+                localStorage.setItem("neoBankAccounts", JSON.stringify(accounts));
+
+                const allTx = JSON.parse(localStorage.getItem("neoBankTransactions")) || [];
+                allTx.unshift({
+                    from: currentAccNo,
+                    to: pendingTransfer.recipient,
+                    amount: pendingTransfer.amount,
+                    date: new Date().toLocaleString()
+                });
+                localStorage.setItem("neoBankTransactions", JSON.stringify(allTx));
+
+                alert("✅ TRANSFER SUCCESSFUL");
+                location.reload();
+            } else {
+                $("#pin-error").fadeIn();
+            }
+        }
+
+        function simulateSuccessfulScan() {
+            const mockIDs = ["1044521", "1099823", "1022341"];
+            const foundID = mockIDs[Math.floor(Math.random() * mockIDs.length)];
+            bootstrap.Modal.getInstance(document.getElementById('scanModal')).hide();
+            $('#recipient').val(foundID);
+            $('#amount').focus();
+            document.getElementById('transfer-form').scrollIntoView({ behavior: 'smooth' });
+            alert("⚡ NEO-CODE DETECTED: Recipient " + foundID);
+        }
+
+        function loadTransactions() {
+            const allTransactions = JSON.parse(localStorage.getItem("neoBankTransactions")) || [];
+            const userTransactions = allTransactions.filter(t => t.from === currentAccNo || t.to === currentAccNo);
+            const container = $("#transactions-list");
+            
+            if (userTransactions.length === 0) {
+                container.html(`<div class="no-tx-alert">NO TRANSACTIONS</div>`);
+            } else {
+                container.empty();
+                userTransactions.forEach(tx => {
+                    const isReceived = tx.to === currentAccNo;
+                    container.append(`
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <div class="fw-bold">${isReceived ? 'Received from' : 'Sent to'} ${isReceived ? tx.from : tx.to}</div>
+                                <small class="text-muted">${tx.date}</small>
+                            </div>
+                            <div class="${isReceived ? 'text-success' : 'text-danger'} fw-bold">
+                                ${isReceived ? '+' : '-'} ₹${tx.amount.toLocaleString()}
+                            </div>
+                        </div>
+                    `);
+                });
+            }
+        }
+
+        function logout() {
+            localStorage.setItem("isLoggedIn", "false");
+            localStorage.removeItem("currentAccount");
+            window.location.href = "loginpage.html";
+        }
+        function focusTransfer() { document.getElementById('recipient').focus(); }
+        function checkGuardStatus() { alert(`🛡️ NEO-GUARD LIVE: Session is Encrypted.`); }
+
+        function animateValue(id, start, end, duration) {
+            let obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = "₹" + Math.floor(progress * (end - start) + start).toLocaleString();
+                if (progress < 1) window.requestAnimationFrame(step);
+            };
+            window.requestAnimationFrame(step);
+        }
+    </script>
+</body>
+</html>

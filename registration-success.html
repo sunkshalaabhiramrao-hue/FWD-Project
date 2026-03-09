@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo Bank | Registration Successful</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-neon: #00f2ff;
+            --success-green: #28a745;
+        }
+        body { background: #0a0a0a; color: #fff; font-family: 'Segoe UI', sans-serif; }
+        
+        .success-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .success-card {
+            max-width: 550px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success-green);
+            text-align: center;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(40, 167, 69, 0.4));
+        }
+        
+        .brand-logo {
+            display: block;
+            text-align: center;
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: var(--primary-neon);
+            text-decoration: none;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .credential-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid #333;
+        }
+
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #222;
+        }
+        .credential-item:last-child { border-bottom: none; }
+
+        .credential-label { color: #888; font-size: 0.85rem; }
+        
+        .credential-value {
+            color: var(--primary-neon);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .credential-value:hover { background: rgba(0, 242, 255, 0.1); }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--primary-neon);
+            color: var(--primary-neon);
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .copy-btn:hover { background: var(--primary-neon); color: #000; }
+
+        .btn-success-neo {
+            background: var(--success-green);
+            border: none;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-success-neo:hover { background: #218838; transform: translateY(-2px); color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="success-container">
+    <div class="success-card">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+
+        <a href="#" class="brand-logo">NEO BANK</a>
+
+        <div class="text-center">
+            <h2 class="mb-2 fw-bold">Registration Successful!</h2>
+            <p class="text-muted small">Your secure quantum-vault has been initialized.</p>
+        </div>
+
+        <div class="credential-box">
+            <h6 class="text-uppercase text-muted mb-3" style="letter-spacing: 1px;">Account Credentials</h6>
+
+            <div class="credential-item">
+                <span class="credential-label">👤 User ID:</span>
+                <span class="credential-value" onclick="copyToClipboard(this)" id="username">Loading...</span>
+            </div>
+
+            <div class="credential-item">
+                <span class="credential-label">🔢 Account No:</span>
+                <span class="credential-value" onclick="copyToClipboard(this)" id="accountNo">Loading...</span>
+            </div>
+
+            <div class="credential-item">
+                <span class="credential-label">🔑 Login PIN:</span>
+                <span class="credential-value" onclick="copyToClipboard(this)" id="password">Loading...</span>
+            </div>
+
+            <div class="credential-item">
+                <span class="credential-label">💻 Device ID:</span>
+                <span class="credential-value" onclick="copyToClipboard(this)" id="deviceId" style="font-size: 0.7rem;">Loading...</span>
+            </div>
+
+            <div class="credential-item">
+                <span class="credential-label">💰 Initial Balance:</span>
+                <span class="credential-value" id="balance" style="cursor: default;">₹1,00,000</span>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Action Required:</strong> Click on values to copy them. Do not share your 6-digit PIN with anyone.
+        </div>
+
+        <div class="text-center">
+            <button class="copy-btn me-2" onclick="copyAllCredentials()">
+                <i class="fas fa-copy me-1"></i>Copy All
+            </button>
+            <a href="loginpage.html" class="btn-success-neo">
+                <i class="fas fa-sign-in-alt me-2"></i>Login Now
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 1. Get data from URL parameters sent by register.html
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        const user = urlParams.get('username') || "N/A";
+        const acc = urlParams.get('accountNo') || "N/A";
+        const pass = urlParams.get('password') || "N/A";
+        const dev = urlParams.get('deviceId') || "N/A";
+
+        // 2. Populate the fields
+        $('#username').text(user);
+        $('#accountNo').text(acc);
+        $('#password').text(pass);
+        $('#deviceId').text(dev);
+    });
+
+    // 3. Copy Individual Item
+    function copyToClipboard(element) {
+        const text = $(element).text();
+        navigator.clipboard.writeText(text).then(() => {
+            const originalText = text;
+            $(element).text("COPIED!").css("color", "#28a745");
+            setTimeout(() => {
+                $(element).text(originalText).css("color", "#00f2ff");
+            }, 1000);
+        });
+    }
+
+    // 4. Copy All Logic
+    function copyAllCredentials() {
+        const allText = `NEO BANK CREDENTIALS\n--------------------\nUser ID: ${$('#username').text()}\nAccount No: ${$('#accountNo').text()}\nPIN: ${$('#password').text()}\nDevice ID: ${$('#deviceId').text()}`;
+        
+        navigator.clipboard.writeText(allText).then(() => {
+            alert("All credentials copied to clipboard!");
+        });
+    }
+</script>
+</body>
+</html>

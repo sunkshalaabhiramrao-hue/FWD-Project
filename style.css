@@ -1,0 +1,534 @@
+ :root {
+            --primary-neon: #00f2ff;
+            --secondary-neon: #7000ff;
+            --dark-bg: #0a0b10;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.1) 0%, transparent 40%);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Hero Background Image */
+        #wrapper {
+            background: url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=2000') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Header */
+        header {
+            background: rgba(10, 11, 16, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 242, 255, 0.3);
+            padding: 15px 0;
+        }
+
+        .neo-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(90deg, var(--primary-neon), var(--secondary-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        /* Navigation */
+        .navbar-default {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .nav-link { color: #ccc !important; font-size: 0.9rem; transition: 0.3s; }
+        .nav-link:hover { color: var(--primary-neon) !important; }
+
+        /* Modern Banking Cards */
+        .banking_section {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .banking_section:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+        }
+
+        .personal_highlight {
+            color: var(--primary-neon);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .login--new {
+            background: linear-gradient(45deg, var(--secondary-neon), var(--primary-neon));
+            color: white;
+            padding: 12px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(112, 0, 255, 0.4);
+            transition: 0.3s;
+        }
+
+        .login--new:hover {
+            box-shadow: 0 6px 25px rgba(0, 242, 255, 0.5);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Useful Links Grid */
+        #useful-links .col a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: 0.2s;
+        }
+
+        #useful-links .col a:hover {
+            background: rgba(0, 242, 255, 0.1);
+            color: var(--primary-neon);
+        }
+
+        .new_blink {
+            color: #ffde00;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        footer {
+            background: #050508;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+/* ===== DASHBOARD STYLES ===== */
+.dashboard-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.balance-display {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #00f2ff;
+}
+
+/* ===== LOGIN PAGE STYLES ===== */
+:root {
+    --neon-blue: #00f2ff;
+    --neon-purple: #7000ff;
+    --glass-bg: rgba(255, 255, 255, 0.07);
+    --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    background-color: #0a0b10;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Background with high-tech finance imagery */
+.login-wrapper {
+    background: linear-gradient(rgba(10, 11, 16, 0.85), rgba(10, 11, 16, 0.85)),
+                url('https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=1920');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.neo-logo {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+    display: block;
+    text-decoration: none;
+}
+
+.tagline {
+    color: #888;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 35px;
+    text-transform: uppercase;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-control {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    color: #fff;
+    padding: 14px 15px 14px 45px;
+    border-radius: 12px;
+}
+
+.form-control:focus {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+    color: #fff;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--neon-blue);
+}
+
+.btn-login {
+    background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 12px;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-login:hover {
+    box-shadow: 0 0 25px rgba(112, 0, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.utility-links {
+    margin-top: 25px;
+    font-size: 0.85rem;
+}
+
+.utility-links a {
+    color: #aaa;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.utility-links a:hover {
+    color: var(--neon-blue);
+}
+
+/* Virtual Keyboard hint - similar to the original SBI file style */
+.security-hint {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 15px;
+}
+
+/* ===== REGISTRATION PAGE STYLES ===== */
+.bg-container {
+    background: linear-gradient(rgba(10, 11, 16, 0.85), rgba(10, 11, 16, 0.85)),
+                url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.registration-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+}
+
+.brand-logo {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+}
+
+.security-badge {
+    background: rgba(0, 242, 255, 0.1);
+    color: var(--neon-blue);
+    font-size: 0.7rem;
+    padding: 4px 12px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-label {
+    color: #aaa;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-group {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.input-group:focus-within {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+}
+
+.input-group-text {
+    background: transparent;
+    border: none;
+    color: var(--neon-blue);
+    padding-left: 15px;
+}
+
+/* ===== ADMIN UNLOCK STYLES ===== */
+.unlock-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.status-locked {
+    color: #dc3545;
+}
+.status-active {
+    color: #28a745;
+}
+
+/* ===== SUSPICIOUS ALERTS STYLES ===== */
+.alert-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.alert-danger {
+    background: rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+}
+.alert-warning {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+}
+
+/* ===== TEST PAGES STYLES ===== */
+.test-card { max-width: 800px; margin: 2rem auto; }
+.security-feature {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-left: 4px solid #007bff;
+    background: white;
+    border-radius: 0.25rem;
+}
+.security-feature h5 {
+    color: #007bff;
+    margin-bottom: 0.5rem;
+}
+.transfer-test-card { max-width: 600px; margin: 2rem auto; }
+
+/* Admin Unlock Styles */
+.unlock-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.status-locked {
+    color: #dc3545;
+}
+.status-active {
+    color: #28a745;
+}
+
+/* Suspicious Alerts Styles */
+.alert-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.alert-danger {
+    background: rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+}
+.alert-warning {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+}
+
+/* Security Test Styles */
+.security-test-card { max-width: 800px; margin: 2rem auto; }
+.security-feature { margin-bottom: 1.5rem; padding: 1rem; border-left: 4px solid #007bff; background: white; border-radius: 0.25rem; }
+.security-feature h5 { color: #007bff; margin-bottom: 0.5rem; }
+
+/* Homepage Cyber Notice */
+.cyber-notice {
+    background: rgba(0,242,255,0.05) !important;
+}
+
+/* Registration Success Styles */
+.success-container {
+    background: linear-gradient(rgba(10, 11, 16, 0.85), rgba(10, 11, 16, 0.85)),
+                url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1920');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.success-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.credential-box {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.credential-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.credential-item:last-child {
+    border-bottom: none;
+}
+
+.credential-label {
+    font-weight: 600;
+    color: #aaa;
+}
+
+.credential-value {
+    font-family: 'Courier New', monospace;
+    background: rgba(0, 242, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: var(--neon-blue);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.credential-value:hover {
+    background: rgba(0, 242, 255, 0.2);
+}
+
+.warning-box {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.warning-box .fas {
+    color: #ffc107;
+    margin-right: 10px;
+}
+
+/* Testing Guide Styles */
+.step-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+.step-number { background: linear-gradient(45deg, #00f2ff, #7000ff); color: white; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 10px; }
+.code-snippet { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; font-family: monospace; margin: 10px 0; }
+
+/* Registration Form Styles */
+.pin-hint { font-size: 0.7rem; color: #888; }
+.account-preview { display: none; }
+.hardware-binding { background: rgba(0,0,0,0.4) !important; }
+.hardware-binding p { font-size: 0.7rem; }
+.device-id-link { cursor: pointer; text-decoration: underline; }
+.device-id-group { display: none; }
